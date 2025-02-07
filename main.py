@@ -1,5 +1,6 @@
 import argparse
 import asyncio
+import sys
 from pathlib import Path
 from dormai.async_api import AsyncDormAI
 from telegram import Update
@@ -27,6 +28,8 @@ async def start_sender():
                 'text': text,
                 'parse_mode': "Markdown",
             }
+            print("Sending -> ", tg_id, " Text: ", text,
+                  file=sys.stderr)
             await dormai.client.post("https://api.telegram.org/bot{token}/sendMessage".format(token=dormai.settings["BOT_TOKEN"]),
                                      data=payload)
 
@@ -37,6 +40,8 @@ def start_receiver():
     async def on_text_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         message_text = str(update.message.text)
         tg_id: int = int(update.message.from_user.id)
+        print("Received <- ", tg_id, " Text: ", message_text,
+              file=sys.stderr)
         await dormai.send_event(dormai.OutputData(message_text=message_text),
                                 dormai.ContextData(tg_id=tg_id))
 
