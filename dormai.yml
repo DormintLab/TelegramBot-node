@@ -1,0 +1,18 @@
+WALLET_ADDRESS: TNfQqz5yzXgBD1vCeJcaoWFZMbHaP4yD1P  # TRC20 wallet address
+
+
+ENV:
+  BOT_TOKEN: string
+  DORMINT_PIPE_ID: string
+
+
+CONTEXT:
+  tg_id: int  # Telegram ID of user, who wrote to the Bot
+
+
+INPUTS:
+  message_text: string
+
+
+OUTPUTS:
+  message_text: string
