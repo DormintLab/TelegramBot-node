@@ -27,12 +27,13 @@ async def start_sender():
                 'text': text,
                 'parse_mode': "Markdown",
             }
-            await dormai.client.post("https://api.telegram.org/bot{token}/sendMessage".format(token=dormai.settings.BOT_TOKEN),
+            await dormai.client.post("https://api.telegram.org/bot{token}/sendMessage".format(token=dormai.settings["BOT_TOKEN"]),
                                      data=payload)
 
 
 async def start_receiver():
     async with AsyncDormAI(Path("./dormai.yml")) as dormai:
+
         async def on_text_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
             message_text = str(update.message.text)
             tg_id: int = int(update.message.from_user.id)
@@ -40,7 +41,7 @@ async def start_receiver():
                                     dormai.ContextData(tg_id=tg_id))
 
         app = (ApplicationBuilder()
-               .token(dormai.settings.BOT_TOKEN)
+               .token(dormai.settings["BOT_TOKEN"])
                .build())
 
         app.add_handler(MessageHandler(filters.TEXT,
