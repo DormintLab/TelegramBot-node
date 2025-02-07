@@ -1,11 +1,11 @@
 services:
-  TelegramBot-node-receiver:
+  telegrambot-node-receiver:
     build:
       context: .
     command: ["python3", "main.py", "receiver" ]
     restart: always
 
-  TelegramBot-node-sender:
+  telegrambot-node-sender:
     build:
       context: .
     command: [ "python3", "main.py", "sender" ]
