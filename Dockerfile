@@ -15,6 +15,6 @@ RUN --mount=type=cache,target=/root/.cache/pip pip install poetry
 RUN poetry config virtualenvs.create false
 ADD pyproject.toml .
 RUN --mount=type=cache,target=/root/.cache/pypoetry \
-    poetry install --no-root --no-interaction --no-ansi --without dev
+    poetry install --no-root --no-interaction --no-ansi
 
 COPY . .
