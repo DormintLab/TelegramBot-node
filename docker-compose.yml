@@ -4,9 +4,11 @@ services:
       context: .
     command: ["python3", "main.py", "receiver" ]
     restart: always
+    env_file: .env
 
   telegrambot-node-sender:
     build:
       context: .
     command: [ "python3", "main.py", "sender" ]
     restart: always
+    env_file: .env
