@@ -31,23 +31,23 @@ async def start_sender():
                                      data=payload)
 
 
-async def start_receiver():
-    async with AsyncDormAI(Path("./dormai.yml")) as dormai:
+def start_receiver():
+    dormai = AsyncDormAI(Path("./dormai.yml"))
 
-        async def on_text_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
-            message_text = str(update.message.text)
-            tg_id: int = int(update.message.from_user.id)
-            await dormai.send_event(dormai.OutputData(message_text=message_text),
-                                    dormai.ContextData(tg_id=tg_id))
+    async def on_text_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
+        message_text = str(update.message.text)
+        tg_id: int = int(update.message.from_user.id)
+        await dormai.send_event(dormai.OutputData(message_text=message_text),
+                                dormai.ContextData(tg_id=tg_id))
 
-        app = (ApplicationBuilder()
-               .token(dormai.settings["BOT_TOKEN"])
-               .build())
+    app = (ApplicationBuilder()
+           .token(dormai.settings["BOT_TOKEN"])
+           .build())
 
-        app.add_handler(MessageHandler(filters.TEXT,
-                                       on_text_handler,
-                                       block=False))
-        app.run_polling()
+    app.add_handler(MessageHandler(filters.TEXT,
+                                   on_text_handler,
+                                   block=False))
+    app.run_polling()
 
 
 if __name__ == "__main__":
@@ -55,6 +55,6 @@ if __name__ == "__main__":
     if args.command == "sender":
         asyncio.run(start_sender())
     elif args.command == "receiver":
-        asyncio.run(start_receiver())
+        start_receiver()
     else:
         raise ValueError("Invalid command")
